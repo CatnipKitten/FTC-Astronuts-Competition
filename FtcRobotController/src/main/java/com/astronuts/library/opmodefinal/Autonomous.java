@@ -113,8 +113,13 @@ public class Autonomous extends LinearOpMode {
             servoRight.move(.7);
         }
 
+        waitOneFullHardwareCycle();
+
+
         Drive.driveByDistance(-16, 'i', left, right);
 
 
         }
+
+
     }
