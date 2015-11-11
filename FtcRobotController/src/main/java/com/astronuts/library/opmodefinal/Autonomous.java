@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  *
  * Created by Prescott on 10/28/15.
  * Last Edited by Prescott on 10/28/15.
+ *
  */
 public class Autonomous extends LinearOpMode {
     //Initializes the motors
