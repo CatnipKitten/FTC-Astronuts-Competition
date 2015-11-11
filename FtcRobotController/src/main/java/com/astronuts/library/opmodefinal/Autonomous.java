@@ -118,9 +118,13 @@ public class Autonomous extends LinearOpMode {
 
         //Senses the color of one side of the beacon and decides which color
         if (cscorrection.blueCorrected/cscorrection.redCorrected > colordiff) {
+            servoColor.move(0.0);
             servoLeft.move(0.65);
+            //move robot forwards
         }else{
+            servoColor.move(0.0);
             servoRight.move(.7);
+            //move robot forwards
         }
         //Moves robot away from beacon.
         Drive.driveByDistance(-16, 'i', left, right);
