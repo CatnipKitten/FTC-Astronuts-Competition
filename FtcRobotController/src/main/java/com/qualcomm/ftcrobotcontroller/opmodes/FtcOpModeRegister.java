@@ -57,7 +57,6 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     manager.register("NullOp", NullOp.class);
     manager.register("CompetionBotTest5", CompetionBotTest5.class);
-    manager.register("CompetionbotTest1", CompetionBotTest1.class);
 
    /* manager.register("K9TeleOp", K9TeleOp.class);
     manager.register ("PushBotAuto", PushBotAuto.class);

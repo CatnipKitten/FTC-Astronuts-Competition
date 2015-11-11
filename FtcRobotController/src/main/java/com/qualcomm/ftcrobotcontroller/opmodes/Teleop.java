@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 /**
  * Created by robotics on 11/11/2015.
  */
-public class CompetionBotTest5 extends OpMode {
+public class Teleop extends OpMode {
     final static float MOTOR_MAX_POWER = (float) 1.0;
 
     final static double LEFT_BUTTON_MIN_RANGE = 0.0;
@@ -38,8 +38,8 @@ public class CompetionBotTest5 extends OpMode {
     DcMotor leftDrive;
     DcMotor upperElbow;
     DcMotor lowerElbow;
-    DcMotor shoulder;/*
-    DcMotor basket;*/
+    DcMotor shoulder;
+    DcMotor winch;
     Servo leftButton;
     Servo rightButton;
     Servo leftLever;
@@ -53,7 +53,7 @@ public class CompetionBotTest5 extends OpMode {
         upperElbow = hardwareMap.dcMotor.get("upper_elbow");
         lowerElbow = hardwareMap.dcMotor.get("lower_elbow");
         shoulder = hardwareMap.dcMotor.get("shoulder");
-        /*basket = hardwareMap.dcMotor.get("basket");*/
+        winch = hardwareMap.dcMotor.get("winch");
         leftButton = hardwareMap.servo.get("left_button");
         rightButton = hardwareMap.servo.get("right_button");
         leftLever = hardwareMap.servo.get("left_lever");
@@ -76,20 +76,12 @@ public class CompetionBotTest5 extends OpMode {
         float upperE = -gamepad2.left_stick_y;
         float lowerE = -gamepad2.left_stick_y;
         float shoulderF = -gamepad2.right_stick_y;
-        /*float rightL2 = gamepad2.right_stick_y;*/
 
         rightD = (float)scaleInput(rightD);
         leftD =  (float)scaleInput(leftD);
         upperE = (float)scaleInput(upperE);
         lowerE = (float)scaleInput(lowerE);
         shoulderF = (float)scaleInput(shoulderF);
-
-        /*leftD = leftD * MOTOR_MAX_POWER;
-        rightD = rightD * MOTOR_MAX_POWER;
-        upperE = upperE * MOTOR_MAX_POWER;
-        lowerE = lowerE * MOTOR_MAX_POWER;
-        shoulderF = shoulderF * MOTOR_MAX_POWER;
-        rightL2 = rightL2 * MOTOR_MAX_POWER;*/
 
         if (gamepad1.b) {
             leftButtonPosition += leftDelta;
@@ -121,22 +113,21 @@ public class CompetionBotTest5 extends OpMode {
         if (gamepad2.a) {
             rightLeverPosition -= rightDelta;
         }
-        /*if (gamepad1.dpad_up) {
-            basket.setPower(1.0);
+        if (gamepad2.dpad_up) {
+            winch.setPower(1.0);
         }
-        if (gamepad1.dpad_down) {
-            basket.setPower(-1.0);
+        if (gamepad2.dpad_down) {
+            winch.setPower(-1.0);
         }
-        if (!gamepad1.dpad_up && !gamepad1.dpad_down) {
-            basket.setPower(0.0);
-        }*/
+        if (!gamepad2.dpad_up && !gamepad2.dpad_down) {
+            winch.setPower(0.0);
+        }
 
         rightD = Range.clip(rightD, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
         leftD = Range.clip(leftD, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
         upperE = Range.clip(upperE, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
         lowerE = Range.clip(lowerE, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
         shoulderF = Range.clip(shoulderF, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
-        /*rightL2 = Range.clip(rightL2, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);*/
         leftButtonPosition = Range.clip(leftButtonPosition, LEFT_BUTTON_MIN_RANGE, LEFT_BUTTON_MAX_RANGE);
         rightButtonPosition = Range.clip(rightButtonPosition, RIGHT_BUTTON_MIN_RANGE, RIGHT_BUTTON_MAX_RANGE);
         leftLeverPosition = Range.clip(leftLeverPosition, LEFT_LEVER_MIN_RANGE, RIGHT_LEVER_MAX_RANGE);
@@ -148,7 +139,6 @@ public class CompetionBotTest5 extends OpMode {
         upperElbow.setPower(upperE);
         lowerElbow.setPower(lowerE);
         shoulder.setPower(shoulderF);
-        /*rightLift2.setPower(rightL2);*/
 
         leftButton.setPosition(leftButtonPosition);
         rightButton.setPosition(rightButtonPosition);
@@ -161,14 +151,13 @@ public class CompetionBotTest5 extends OpMode {
         telemetry.addData("3-left lift power", upperE);
         telemetry.addData("4-left lift 2 power", lowerE);
         telemetry.addData("5-right lift power", shoulderF);
-        /*telemetry.addData("6-right lift 2 power", rightL2);
-        telemetry.addData("7-basket motor positive", gamepad1.dpad_up);
-        telemetry.addData("8-basket motor negative", gamepad1.dpad_down);*/
-        telemetry.addData("9-left button servo position", leftButtonPosition);
-        telemetry.addData("10-right button servo position", rightButtonPosition);
-        telemetry.addData("11-left lever servo position", leftLeverPosition);
-        telemetry.addData("12-right lever servo postion", rightLeverPosition);
-        telemetry.addData("13-color sensor servo position", csPosition);
+        telemetry.addData("6-winch up", winch);
+        telemetry.addData("7-winch down", winch);
+        telemetry.addData("8-left button servo position", leftButtonPosition);
+        telemetry.addData("9-right button servo position", rightButtonPosition);
+        telemetry.addData("10-left lever servo position", leftLeverPosition);
+        telemetry.addData("11-right lever servo postion", rightLeverPosition);
+        telemetry.addData("12-color sensor servo position", csPosition);
     }
     double scaleInput(double dVal)  {
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,

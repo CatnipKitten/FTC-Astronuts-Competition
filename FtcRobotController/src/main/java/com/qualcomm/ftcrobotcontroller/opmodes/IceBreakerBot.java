@@ -17,24 +17,24 @@ public class IceBreakerBot extends OpMode {
     final static float MOTOR_MAX_POWER = (float) 1.0;
     /*setting up the variable "MOTOR_MAX_POWER" for the drive motors*/
 
-    DcMotor motorRight1;
-    DcMotor motorRight2;
-    DcMotor motorLeft1;
-    DcMotor motorLeft2;
+    DcMotor rightDrive1;
+    DcMotor rightDrive2;
+    DcMotor leftDrive1;
+    DcMotor leftDrive2;
     DcMotor basket;
     /*declaring the motors*/
 
     @Override
     public void init(){
-        motorRight1 = hardwareMap.dcMotor.get("motor_right1");
-        motorRight2 = hardwareMap.dcMotor.get("motor_right2");
-        motorLeft1 = hardwareMap.dcMotor.get("motor_left1");
-        motorLeft2 = hardwareMap.dcMotor.get("motor_left2");
+        rightDrive1 = hardwareMap.dcMotor.get("motor_right1");
+        rightDrive2 = hardwareMap.dcMotor.get("motor_right2");
+        leftDrive1 = hardwareMap.dcMotor.get("motor_left1");
+        leftDrive2 = hardwareMap.dcMotor.get("motor_left2");
         basket = hardwareMap.dcMotor.get("basket");
         /*matching the config file to the names in the code*/
 
-        motorLeft1.setDirection(DcMotor.Direction.REVERSE);
-        motorLeft2.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive2.setDirection(DcMotor.Direction.REVERSE);
         /*reversing the direction of the left drive motors*/
     }
     @Override
@@ -50,10 +50,10 @@ public class IceBreakerBot extends OpMode {
         right = Range.clip(right, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
         left = Range.clip(left, -MOTOR_MAX_POWER, MOTOR_MAX_POWER);
 
-        motorLeft1.setPower(left);
-        motorLeft2.setPower(left);
-        motorRight1.setPower(right);
-        motorRight2.setPower(right);
+        leftDrive1.setPower(left);
+        leftDrive2.setPower(left);
+        rightDrive1.setPower(right);
+        rightDrive2.setPower(right);
         /*setting the power for the drive motors*/
 
         if (buttonY) {
@@ -75,6 +75,5 @@ public class IceBreakerBot extends OpMode {
 
         telemetry.addData("1-motor left power", left);
         telemetry.addData("2-motor right power", right);
-        /*showing the */
     }
 }
