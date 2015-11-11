@@ -2,46 +2,46 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\exploded-aar\RobotCore-release\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2ec6f06847bccfe30fb8f8f75ce888721e4fd275">
-        <dex dex="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\classes-d0a833ba48991d74ca1a87bd565c44e36bb32711.jar" />
-    </item>
-    <item
-        jar="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\exploded-aar\FtcCommon-release\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="6da7d9bc8c9a82321450b6b4273d1746b6cade21">
-        <dex dex="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\classes-bc950bc57ce45d05f9ede269f83fde980b8f74c8.jar" />
-    </item>
-    <item
-        jar="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\exploded-aar\ModernRobotics-release\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="ad4adcdf8eb6ff2b3b4fe9f1d676f099db621d60">
-        <dex dex="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\classes-26ed1b95cb5ea17a321099c76c4cb7d1be29b119.jar" />
-    </item>
-    <item
-        jar="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\exploded-aar\Analytics-release\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="23c74caa2b901107adc4d0aec343c5b8e8be86fb">
-        <dex dex="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\classes-f402da8279b747e7776f4e50e756fc6bdecb20f1.jar" />
-    </item>
-    <item
-        jar="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\exploded-aar\WirelessP2p-release\jars\classes.jar"
+        jar="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/exploded-aar/WirelessP2p-release/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="ebf8372b5bc9dc9f596ed438df36481099d51c41">
-        <dex dex="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\classes-483ca408731a8d440810f43646cabd9191e75e18.jar" />
+        <dex dex="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/pre-dexed/debug/classes-788263de040b8fa5180dc16219d305fc71a3e1fb.jar" />
     </item>
     <item
-        jar="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\exploded-aar\Hardware-release\jars\classes.jar"
+        jar="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/exploded-aar/FtcCommon-release/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6da7d9bc8c9a82321450b6b4273d1746b6cade21">
+        <dex dex="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/pre-dexed/debug/classes-f2f19b2737da9af86061bb24409e1389a64c1148.jar" />
+    </item>
+    <item
+        jar="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/exploded-aar/Analytics-release/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="23c74caa2b901107adc4d0aec343c5b8e8be86fb">
+        <dex dex="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/pre-dexed/debug/classes-57b49a115fafa49f71fa7c19d03ca1eaafbc4bc0.jar" />
+    </item>
+    <item
+        jar="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/exploded-aar/RobotCore-release/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2ec6f06847bccfe30fb8f8f75ce888721e4fd275">
+        <dex dex="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/pre-dexed/debug/classes-5c670e283c02490f64d46478505e20be7316a396.jar" />
+    </item>
+    <item
+        jar="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/exploded-aar/Hardware-release/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="55ecd0b0517650a2cffd06137a40de8af3bbbde3">
-        <dex dex="C:\Users\Zach\Desktop\ftc_app-master\FtcRobotController\build\intermediates\pre-dexed\debug\classes-f069fc3693b497adf4a5319454e8f194275e70b3.jar" />
+        <dex dex="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/pre-dexed/debug/classes-c8bd51f7aac62728565dbd4aab0a8f827cbc0226.jar" />
+    </item>
+    <item
+        jar="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/exploded-aar/ModernRobotics-release/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ad4adcdf8eb6ff2b3b4fe9f1d676f099db621d60">
+        <dex dex="/Users/maxine/Desktop/FTC-Astronuts-Competition/FtcRobotController/build/intermediates/pre-dexed/debug/classes-9aad9a2dff52f5c1c4637a0cb7314fa762b44aa1.jar" />
     </item>
 
 </items>

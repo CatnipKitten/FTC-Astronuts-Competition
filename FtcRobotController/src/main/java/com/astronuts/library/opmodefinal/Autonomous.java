@@ -81,9 +81,9 @@ public class Autonomous extends LinearOpMode {
         right = new EncoderMotor(motorRight);
         InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
 
-        InitServo finalLeft = new InitServo(leftServo, 0.0, 0.65, 0.1);
-        InitServo finalRight = new InitServo(rightServo, 0.0, 0.7, 0.1);
-        InitServo finalColor = new InitServo(colorArm, 0.0, 1.0, 0.1);
+        InitServo finalLeft = new InitServo(leftServo, 0.0, 0.65, 0.01);
+        InitServo finalRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
+        InitServo finalColor = new InitServo(colorArm, 0.0, 1.0, 0.01);
 
         //Imports the Color Sensor and Ultrasonic Sensor classes
         CScorrection cscorrection = new CScorrection();
