@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * This is an autonomous program that makes the robot follow a white line that leads up to the red
  * and blue lights, finds out which color one side is, then uses logic to find the team's color,
  * and pushes one of the buttons based off of the team color.
+ * (hopefully XD)
  *
  *
  * Created by Prescott on 10/28/15.
