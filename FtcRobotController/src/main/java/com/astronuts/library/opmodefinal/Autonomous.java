@@ -33,6 +33,9 @@ public class Autonomous extends LinearOpMode {
     DcMotor motorLeft;
     final static double motorMaxPower = 20;
 
+    EncoderMotor left;
+    EncoderMotor right;
+
     //Initializes the servos
     Servo leftServo;
     Servo rightServo;
@@ -74,14 +77,13 @@ public class Autonomous extends LinearOpMode {
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         //Initializes Encoders
-        EncoderMotor left = new EncoderMotor(motorLeft);
-        EncoderMotor right = new EncoderMotor(motorRight);
+        left = new EncoderMotor(motorLeft);
+        right = new EncoderMotor(motorRight);
         InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
 
-        //Initializes Servos
-        InitServo servoLeft = new InitServo(leftServo, 0.1, 0.65, 0.01);
-        InitServo servoRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
-        InitServo servoColor = new InitServo(colorArm, 0.0, 1.0, .01);
+        InitServo finalLeft = new InitServo(leftServo, 0.0, 0.65, 0.1);
+        InitServo finalRight = new InitServo(rightServo, 0.0, 0.7, 0.1);
+        InitServo finalColor = new InitServo(colorArm, 0.0, 1.0, 0.1);
 
         //Imports the Color Sensor and Ultrasonic Sensor classes
         CScorrection cscorrection = new CScorrection();
@@ -92,9 +94,9 @@ public class Autonomous extends LinearOpMode {
         SafeSnooze.snooze(RobotData.timeDelay, 's');
 
         //Initializes the servos
-        servoLeft.init();
-        servoRight.init();
-        servoColor.init();
+        finalLeft.init();
+        finalRight.init();
+        finalColor.init();
 
         //Moves the robot over to the line.
         Drive.driveByDistance(27, 'i', left, right);
@@ -115,17 +117,17 @@ public class Autonomous extends LinearOpMode {
         }
 
         //Moves the servos down
-        servoColor.move(1.0);
+        finalColor.move(1.0);
         cscorrection.getColors(color);
 
         //Senses the color of one side of the beacon and decides which color
         if (cscorrection.blueCorrected/cscorrection.redCorrected > colordiff) {
-            servoColor.move(0.0);
-            servoLeft.move(0.65);
+            finalColor.move(0.0);
+            finalLeft.move(0.65);
             //move robot forwards
         }else{
-            servoColor.move(0.0);
-            servoRight.move(.7);
+            finalColor.move(0.0);
+            finalRight.move(.7);
             //move robot forwards
         }
         //Moves robot away from beacon.
