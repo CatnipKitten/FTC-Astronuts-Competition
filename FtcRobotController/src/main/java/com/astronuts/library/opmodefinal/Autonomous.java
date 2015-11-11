@@ -37,9 +37,6 @@ public class Autonomous extends LinearOpMode {
     Servo leftServo;
     Servo rightServo;
     Servo colorArm;
-    InitServo servoLeft = new InitServo(leftServo, 0.1, 0.65, 0.01);
-    InitServo servoRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
-    InitServo servoColor = new InitServo(colorArm, 0.0, 1.0, .01);
 
     //Initializes the sensors.
     LightSensor lightSensor;
@@ -49,11 +46,6 @@ public class Autonomous extends LinearOpMode {
 
     //Sets variable that is used for the color sensor channel.
     static final int LED_CHANNEL = 5;
-
-    //Initailizes the encoders.
-    EncoderMotor left = new EncoderMotor(motorLeft);
-    EncoderMotor right = new EncoderMotor(motorRight);
-    InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
 
     //Starts Initialization.
     @Override
@@ -80,6 +72,16 @@ public class Autonomous extends LinearOpMode {
         motorLeft = hardwareMap.dcMotor.get("left_drive");
         //Reverses the Left Motor.
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        //Initializes Encoders
+        EncoderMotor left = new EncoderMotor(motorLeft);
+        EncoderMotor right = new EncoderMotor(motorRight);
+        InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
+
+        //Initializes Servos
+        InitServo servoLeft = new InitServo(leftServo, 0.1, 0.65, 0.01);
+        InitServo servoRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
+        InitServo servoColor = new InitServo(colorArm, 0.0, 1.0, .01);
 
         //Imports the Color Sensor and Ultrasonic Sensor classes
         CScorrection cscorrection = new CScorrection();
