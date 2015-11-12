@@ -26,13 +26,11 @@ public class TestSensors extends OpMode{
         lightSensor = hardwareMap.lightSensor.get(RobotData.light_sensor);
         colorSensor = hardwareMap.colorSensor.get(RobotData.color_sensor);
         cdim = hardwareMap.deviceInterfaceModule.get(RobotData.cdim);
+        cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
+        cdim.setDigitalChannelState(LED_CHANNEL, false);
     }
 
     public void loop(){
-        cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
-        cdim.setDigitalChannelState(LED_CHANNEL, false);
-
-
         CScorrection csCorrection = new CScorrection();
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonicSensor);
 
