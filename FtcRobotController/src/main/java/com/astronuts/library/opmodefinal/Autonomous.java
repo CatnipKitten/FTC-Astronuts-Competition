@@ -65,7 +65,7 @@ public class Autonomous extends LinearOpMode {
 
 
         //Maps the Device Interface Module
-        cdim = hardwareMap.deviceInterfaceModule.get("dim");
+        cdim = hardwareMap.deviceInterfaceModule.get("Device Interface Module1");
         //Sets the channel for the color sensor.
         cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
         cdim.setDigitalChannelState(LED_CHANNEL, false);
