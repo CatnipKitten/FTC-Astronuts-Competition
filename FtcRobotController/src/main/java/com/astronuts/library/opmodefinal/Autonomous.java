@@ -31,6 +31,9 @@ public class Autonomous extends LinearOpMode {
     //Initializes the motors and power
     DcMotor motorRight;
     DcMotor motorLeft;
+    DcMotor motorArmLower;
+    DcMotor motorArmUpper;
+    DcMotor shoulder;
     final static double motorMaxPower = 20;
 
     EncoderMotor left;
@@ -73,6 +76,9 @@ public class Autonomous extends LinearOpMode {
         //Maps the motors.
         motorRight = hardwareMap.dcMotor.get("right_drive");
         motorLeft = hardwareMap.dcMotor.get("left_drive");
+        motorArmLower = hardwareMap.dcMotor.get("lower_elbow");
+        motorArmUpper = hardwareMap.dcMotor.get("upper_elbow");
+        shoulder = hardwareMap.dcMotor.get("shoulder");
         //Reverses the Left Motor.
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
@@ -89,7 +95,9 @@ public class Autonomous extends LinearOpMode {
         CScorrection cscorrection = new CScorrection();
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonic);
 
-        waitForStart(); //Starts the actual program.
+        //************************************START!!!!!!************************************
+        waitForStart();
+
         //Allows the use of a delay.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
 
@@ -104,11 +112,11 @@ public class Autonomous extends LinearOpMode {
         Drive.driveByDistance(82, 'i', left, right);
 
         //Change me!
-        int whiteline = 0;
-        int colordiff = 0;
+        double whiteLine = 0.34;
+        double colorDiff = 1.21;
 
         //Turns the robot to be along the line
-        while(lightSensor.getLightDetected() < whiteline){
+        while(lightSensor.getLightDetected() < whiteLine){
             Drive.turnByAngle(-10, left, right);
         }
         //Stops the robot at a certain distance away from the walls
@@ -121,7 +129,7 @@ public class Autonomous extends LinearOpMode {
         cscorrection.getColors(color);
 
         //Senses the color of one side of the beacon and decides which color
-        if (cscorrection.blueCorrected/cscorrection.redCorrected > colordiff) {
+        if (cscorrection.redCorrected/cscorrection.blueCorrected > colorDiff) {
             finalColor.move(0.0);
             finalLeft.move(0.65);
             //move robot forwards

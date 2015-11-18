@@ -2,10 +2,6 @@ package com.astronuts.library.opmodefinal;
 
 import com.astronuts.library.RobotData;
 import com.astronuts.library.chudsCode.SafeSnooze;
-import com.astronuts.library.movement.Drive;
-import com.astronuts.library.movement.EncoderMotor;
-import com.astronuts.library.movement.InitEncoder;
-import com.astronuts.library.movement.InitServo;
 import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.astronuts.library.sensors.ultrasonic.UltrasonicDistance;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -16,12 +12,11 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
-import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by maxine on 11/18/15.
+ * Created by Preescoot on 11/18/15.
  */
-public class AutonomousBackUp extends LinearOpMode {
+public class AutonomousBackUpBLUETEAM extends LinearOpMode{
     //Initializes the motors and power
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -36,6 +31,7 @@ public class AutonomousBackUp extends LinearOpMode {
     double startPos = 0.0;
     double endLeft = 0.65;
     double endRight = 0.7;
+    double endColor = 1.0;
 
     //Initializes the sensors.
     LightSensor lightSensor;
@@ -45,6 +41,8 @@ public class AutonomousBackUp extends LinearOpMode {
 
     //Sets variable that is used for the color sensor channel.
     static final int LED_CHANNEL = 5;
+
+
 
     //Starts Initialization.
     @Override
@@ -76,19 +74,6 @@ public class AutonomousBackUp extends LinearOpMode {
         rightServo.setPosition(startPos);
         colorArm.setPosition(startPos);
 
-
-
-        //Initializes Encoders
-        //left = new EncoderMotor(motorLeft);
-        //right = new EncoderMotor(motorRight);
-        //InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
-
-        //InitServo finalLeft = new InitServo(leftServo, 0.0, 0.65, 0.01);
-        //InitServo finalRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
-        //InitServo finalColor = new InitServo(colorArm, 0.0, 1.0, 0.01);
-
-        //Imports the Color Sensor and Ultrasonic Sensor classes
-
         CScorrection cscorrection = new CScorrection();
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonic);
 
@@ -98,45 +83,43 @@ public class AutonomousBackUp extends LinearOpMode {
         //Allows the use of a delay.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
 
+        double whiteLine = .34;
 
-        //Initializes the servos
+        motorLeft.setPower(motorMaxPower);
+        motorRight.setPower(motorMaxPower);
 
-        //Moves the robot over to the line.
-       /* Drive.driveByDistance(27, 'i', left, right);
-        Drive.turnByAngle(-145, left, right);
-        Drive.driveByDistance(82, 'i', left, right);
+        Thread.sleep(3000);
 
-        //Change me!
-        int whiteline = 0;
-        int colordiff = 0;
+        motorLeft.setPower(0);
+        motorRight.setPower(0);
 
-        //Turns the robot to be along the line
-        while(lightSensor.getLightDetected() < whiteline){
-            Drive.turnByAngle(-10, left, right);
-        }
-        //Stops the robot at a certain distance away from the walls
-        while(ultrasonicDistance.getdistance('i') <= 11.5){
-            Drive.driveByDistance(1, 'c', left, right);
+        while (lightSensor.getLightDetected() < whiteLine) {
+            motorRight.setPower(-motorMaxPower);
+            motorLeft.setPower(motorMaxPower);
         }
 
-        //Moves the servos down
-        colorArm.setPosition(1.0);
-        cscorrection.getColors(color);
+        while (ultrasonicDistance.getdistance('i') > 12) {
+            motorRight.setPower(motorMaxPower);
+            motorLeft.setPower(motorMaxPower);
+        }
 
-        //Senses the color of one side of the beacon and decides which color
-        if (cscorrection.blueCorrected/cscorrection.redCorrected > colordiff) {
+        colorArm.setPosition(endColor);
+
+        if (cscorrection.redCorrected/cscorrection.blueCorrected < 1.2) {
+            rightServo.setPosition(endRight);
             colorArm.setPosition(0.0);
-            leftServo.setPosition(0.65);
-            //move robot forwards
-        }else{
+            while (ultrasonicDistance.getdistance('i') >= 6.9) {
+                motorRight.setPower(motorMaxPower);
+                motorLeft.setPower(motorMaxPower);
+            }
+        }else {
+            leftServo.setPosition(endLeft);
             colorArm.setPosition(0.0);
-            rightServo.setPosition(.7);
-            //move robot forwards
+            while (ultrasonicDistance.getdistance('i') >= 6.9) {
+                motorRight.setPower(motorMaxPower);
+                motorLeft.setPower(motorMaxPower);
+            }
         }
-        //Moves robot away from beacon.
-        Drive.driveByDistance(-16, 'i', left, right);*/
-
 
     }
 }
-
