@@ -121,7 +121,7 @@ public class AutonomousBLUETEAM extends LinearOpMode {
         finalColor.move(1.0);
         cscorrection.getColors(color);
 
-        //CHANGE ME!!!! I'M A PLACE HOLDER!!!!!
+        //*****************CHANGE ME!!!! I'M A PLACE HOLDER!!!!!******************
         int distanceFromArmToButton = 0;
 
         //Senses the color of one side of the beacon and decides which color

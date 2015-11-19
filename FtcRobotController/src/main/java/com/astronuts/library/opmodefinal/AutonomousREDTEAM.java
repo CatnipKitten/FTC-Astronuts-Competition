@@ -141,7 +141,6 @@ public class AutonomousREDTEAM extends LinearOpMode {
             finalRight.move(0.7);
             Drive.driveByDistance(distanceFromArmToButton, 'i', left, right);
         }
-
-        }
+    }
 }
 
