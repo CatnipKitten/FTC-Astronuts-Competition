@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * Created by Prescott on 10/28/15.
  * Last Edited by Prescott on 10/28/15.
  */
-public class Autonomous extends LinearOpMode {
+public class AutonomousREDTEAM extends LinearOpMode {
     //Initializes the motors and power
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -120,7 +120,7 @@ public class Autonomous extends LinearOpMode {
             Drive.turnByAngle(-10, left, right);
         }
         //Stops the robot at a certain distance away from the walls
-        while(ultrasonicDistance.getdistance('i') <= 11.5){
+        while(ultrasonicDistance.getdistance('i') <= 12){
             Drive.driveByDistance(1, 'c', left, right);
         }
 
@@ -128,19 +128,20 @@ public class Autonomous extends LinearOpMode {
         finalColor.move(1.0);
         cscorrection.getColors(color);
 
+        //CHANGE ME!!!! I'M A PLACE HOLDER!!!!!
+        int distanceFromArmToButton = 0;
+
         //Senses the color of one side of the beacon and decides which color
         if (cscorrection.redCorrected/cscorrection.blueCorrected > colorDiff) {
             finalColor.move(0.0);
             finalLeft.move(0.65);
-            //move robot forwards
-        }else{
+            Drive.driveByDistance(distanceFromArmToButton, 'i', left, right);
+        }else {
             finalColor.move(0.0);
-            finalRight.move(.7);
-            //move robot forwards
+            finalRight.move(0.7);
+            Drive.driveByDistance(distanceFromArmToButton, 'i', left, right);
         }
-        //Moves robot away from beacon.
-        Drive.driveByDistance(-16, 'i', left, right);
-
 
         }
-    }
+}
+

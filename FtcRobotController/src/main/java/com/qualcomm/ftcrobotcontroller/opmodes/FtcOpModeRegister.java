@@ -41,7 +41,7 @@ import com.astronuts.library.opmodefinal.*;
  */
 public class FtcOpModeRegister implements OpModeRegister {
   public void register(OpModeManager manager) {
-    manager.register("LinearOP", Autonomous.class);
+    manager.register("LinearOP", AutonomousREDTEAM.class);
     manager.register("TeleOP", TeleOP.class);
     manager.register("Sensor Test", TestSensors.class);
   }
