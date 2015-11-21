@@ -82,7 +82,7 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
         //Allows the use of a delay.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
 
-        double whiteLine = 0.34;
+        double blackTiles = 0.7;
         double blueTape = 0.78;
 
         motorLeft.setPower(motorMaxPower);
@@ -93,7 +93,7 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
         motorLeft.setPower(0);
         motorRight.setPower(0);
 
-        while (lightSensor.getLightDetected() < whiteLine) {
+        while (lightSensor.getLightDetected() > blackTiles && lightSensor.getLightDetected() > blueTape) {
             motorRight.setPower(motorMaxPower);
             motorLeft.setPower(-motorMaxPower);
         }

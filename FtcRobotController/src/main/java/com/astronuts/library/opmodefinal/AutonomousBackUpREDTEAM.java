@@ -83,9 +83,8 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
         CScorrection cscorrection = new CScorrection();
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonic);
 
-        //************************START!!!!!!!*************************
+        //**********************************START!!!!!!!**********************************
         waitForStart(); //Starts the actual program.
-
         //Allows the use of a delay.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
 
@@ -102,9 +101,7 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
 
         lightSensor.enableLed(true);
 
-
-
-        while (lightSensor.getLightDetectedRaw() <= blackTiles && lightSensor.getLightDetectedRaw() >= redTape) {
+        while (lightSensor.getLightDetected() < blackTiles && lightSensor.getLightDetected() > redTape) {
             motorRight.setPower(motorBackwardsPower);
             motorLeft.setPower(motorMaxPower);
         }
