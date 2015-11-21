@@ -19,13 +19,13 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by maxine on 11/18/15.
+ * Created by Preescoott on 11/18/15.
  */
 public class AutonomousBackUpREDTEAM extends LinearOpMode {
     //Initializes the motors and power
     DcMotor motorRight;
     DcMotor motorLeft;
-    final static double motorMaxPower = .2;
+    final static double motorMaxPower = 1.0;
 
 
     //Initializes the servos
@@ -88,7 +88,7 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
         //Allows the use of a delay.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
 
-        double whiteLine = .34;
+        double blackTiles = .69;
 
         motorLeft.setPower(motorMaxPower);
         motorRight.setPower(motorMaxPower);
@@ -98,9 +98,11 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
         motorLeft.setPower(0);
         motorRight.setPower(0);
 
-        while (lightSensor.getLightDetected() < whiteLine) {
-            motorRight.setPower(motorMaxPower);
-            motorLeft.setPower(-motorMaxPower);
+        lightSensor.enableLed(true);
+
+        while (lightSensor.getLightDetected() >= blackTiles) {
+            motorRight.setPower(-motorMaxPower);
+            motorLeft.setPower(motorMaxPower);
         }
 
         while (ultrasonicDistance.getdistance('i') > 12) {

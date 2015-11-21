@@ -20,7 +20,7 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
     //Initializes the motors and power
     DcMotor motorRight;
     DcMotor motorLeft;
-    final static double motorMaxPower = .2;
+    final static double motorMaxPower = 1.0;
 
 
     //Initializes the servos
@@ -31,7 +31,6 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
     double startPos = 0.0;
     double endLeft = 0.65;
     double endRight = 0.7;
-    double endColor = 1.0;
 
     //Initializes the sensors.
     LightSensor lightSensor;
@@ -88,14 +87,14 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
         motorLeft.setPower(motorMaxPower);
         motorRight.setPower(motorMaxPower);
 
-        Thread.sleep(3000);
+        Thread.sleep(2750);
 
         motorLeft.setPower(0);
         motorRight.setPower(0);
 
         while (lightSensor.getLightDetected() < whiteLine) {
-            motorRight.setPower(-motorMaxPower);
-            motorLeft.setPower(motorMaxPower);
+            motorRight.setPower(motorMaxPower);
+            motorLeft.setPower(-motorMaxPower);
         }
 
         while (ultrasonicDistance.getdistance('i') > 12) {
@@ -103,7 +102,7 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
             motorLeft.setPower(motorMaxPower);
         }
 
-        colorArm.setPosition(endColor);
+        colorArm.setPosition(.36);
 
         if (cscorrection.redCorrected/cscorrection.blueCorrected < 1.2) {
             rightServo.setPosition(endRight);

@@ -15,7 +15,7 @@ public class TestSensors extends OpMode{
     ColorSensor colorSensor;
     LightSensor lightSensor;
     UltrasonicSensor ultrasonicSensor;
-    DeviceInterfaceModule cdim;
+    //DeviceInterfaceModule cdim;
 
     public static final int LED_CHANNEL = 5;
 
@@ -25,9 +25,9 @@ public class TestSensors extends OpMode{
         ultrasonicSensor = hardwareMap.ultrasonicSensor.get(RobotData.ultrasonic_sensor);
         lightSensor = hardwareMap.lightSensor.get(RobotData.light_sensor);
         colorSensor = hardwareMap.colorSensor.get(RobotData.color_sensor);
-        cdim = hardwareMap.deviceInterfaceModule.get(RobotData.cdim);
-        cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
-        cdim.setDigitalChannelState(LED_CHANNEL, false);
+        //cdim = hardwareMap.deviceInterfaceModule.get(RobotData.cdim);
+        //cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
+        //cdim.setDigitalChannelState(LED_CHANNEL, false);
     }
 
     public void loop(){
@@ -35,6 +35,8 @@ public class TestSensors extends OpMode{
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonicSensor);
 
         csCorrection.getColors(colorSensor);
+
+        lightSensor.enableLed(true);
 
         telemetry.addData("Ultrasonic Sensor (c):", ultrasonicDistance.getdistance('c'));
         telemetry.addData("Light Sensor:", lightSensor.getLightDetected());

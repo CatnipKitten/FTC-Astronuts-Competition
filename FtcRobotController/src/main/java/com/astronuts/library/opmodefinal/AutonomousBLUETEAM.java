@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /**
- * Created by maxine on 11/18/15.
+ * Created by Preescoott on 11/18/15.
  */
 public class AutonomousBLUETEAM extends LinearOpMode {
     //Initializes the motors and power
