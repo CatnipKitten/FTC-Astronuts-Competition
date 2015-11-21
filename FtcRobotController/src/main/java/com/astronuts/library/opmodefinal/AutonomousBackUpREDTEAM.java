@@ -103,7 +103,7 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
 
 
 
-        while (lightSensor.getLightDetectedRaw() >= blackTiles redTape) {
+        while (lightSensor.getLightDetectedRaw() <= blackTiles && lightSensor.getLightDetectedRaw() >= redTape) {
             motorRight.setPower(-motorMaxPower);
             motorLeft.setPower(motorMaxPower);
         }
