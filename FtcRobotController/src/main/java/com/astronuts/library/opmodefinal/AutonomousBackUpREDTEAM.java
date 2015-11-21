@@ -26,6 +26,7 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
     DcMotor motorRight;
     DcMotor motorLeft;
     final static double motorMaxPower = 1.0;
+    final static double motorBackwardsPower = -1.0;
 
 
     //Initializes the servos
@@ -104,7 +105,7 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
 
 
         while (lightSensor.getLightDetectedRaw() <= blackTiles && lightSensor.getLightDetectedRaw() >= redTape) {
-            motorRight.setPower(-motorMaxPower);
+            motorRight.setPower(motorBackwardsPower);
             motorLeft.setPower(motorMaxPower);
         }
 
