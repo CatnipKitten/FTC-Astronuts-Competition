@@ -39,7 +39,7 @@ public class TestSensors extends OpMode{
         lightSensor.enableLed(true);
 
         telemetry.addData("Ultrasonic Sensor (c):", ultrasonicDistance.getdistance('c'));
-        telemetry.addData("Light Sensor:", lightSensor.getLightDetected());
+        telemetry.addData("Light Sensor:", lightSensor.getLightDetectedRaw());
         telemetry.addData("Color Sensor Blue:", csCorrection.blueCorrected);
         telemetry.addData("Color Sensor Red:", csCorrection.redCorrected);
         telemetry.addData("Color Sensor Green:", csCorrection.greenCorrected);

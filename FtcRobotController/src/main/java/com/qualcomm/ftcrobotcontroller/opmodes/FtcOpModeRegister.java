@@ -48,5 +48,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("Autonomous RED TEAM", AutonomousREDTEAM.class);
     manager.register("Autonomous Backup BLUE TEAM", AutonomousBackUpBLUETEAM.class);
     manager.register("Autonomous Backup RED TEAM", AutonomousBackUpREDTEAM.class);
+    manager.register("Backup backup", AutonomousSimpleBackup.class);
   }
 }
