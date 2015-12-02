@@ -30,7 +30,7 @@ public class UltrasonicSensorTest extends OpMode {
     //Starts a loop that will last as long as the program is running. It will run the Method from
     //the class and show the data on the phones.
     public void loop () {
-        test.getdistance('r');
+        test.getdistance('i');
 
         //Shows data from the sensor that has been converted through the method in the class.
         telemetry.addData("Centimeters", test.getdistance('c'));

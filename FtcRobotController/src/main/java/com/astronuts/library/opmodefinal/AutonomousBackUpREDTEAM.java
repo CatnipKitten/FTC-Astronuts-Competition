@@ -52,10 +52,9 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
     static final int LED_CHANNEL = 5;
 
 
-
     //Starts Initialization.
     @Override
-    public void runOpMode () throws InterruptedException {
+    public void runOpMode() throws InterruptedException {
         //Maps the sensors.
         ultrasonic = hardwareMap.ultrasonicSensor.get("ultrasonic_sensor");
         lightSensor = hardwareMap.lightSensor.get("light_sensor");
@@ -87,7 +86,7 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
         rightServo.setPosition(startPos);
         //colorArm.setPosition(startPos);
 
-        //CScorrection cscorrection = new CScorrection();
+        CScorrection cscorrection = new CScorrection();
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonic);
 
         //**********************************START!!!!!!!**********************************
@@ -123,12 +122,12 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
         if (ultrasonicDistance.getdistance('i') < 12) {
             motorRight.setPower(motorBackwardsPower);
             motorLeft.setPower(motorBackwardsPower);
-        }else {
+        } else {
             motorLeft.setPower(0.0);
             motorRight.setPower(0.0);
         }
 
-        shoulder.setPower(motorMaxPower);
+        /*shoulder.setPower(motorMaxPower);
         Thread.sleep(1000);
         shoulder.setPower(0.0);
 
@@ -137,29 +136,29 @@ public class AutonomousBackUpREDTEAM extends LinearOpMode {
         Thread.sleep(3000);
         motorArmLower.setPower(0.0);
         motorArmUpper.setPower(0.0);
+*/
 
 
+        colorArm.setPosition(endColor);
 
 
-        //colorArm.setPosition(endColor);
-
-        /*
-        if (cscorrection.redCorrected/cscorrection.blueCorrected > 1.2) {
+        if (cscorrection.redCorrected / cscorrection.blueCorrected > 1.2) {
             leftServo.setPosition(startPos);
             colorArm.setPosition(0.0);
             while (ultrasonicDistance.getdistance('i') >= 6.9) {
                 motorRight.setPower(motorMaxPower);
                 motorLeft.setPower(motorMaxPower);
             }
-        }else {
+        } else {
             rightServo.setPosition(endRight);
             colorArm.setPosition(0.0);
             while (ultrasonicDistance.getdistance('i') >= 6.9) {
                 motorRight.setPower(motorMaxPower);
                 motorLeft.setPower(motorMaxPower);
-            }*/
+            }
         }
 
+    }
 }
 
 
