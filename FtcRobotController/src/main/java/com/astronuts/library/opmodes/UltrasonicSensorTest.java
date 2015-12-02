@@ -1,4 +1,4 @@
-/*package com.astronuts.library.opmodes;
+package com.astronuts.library.opmodes;
 
 import com.astronuts.library.sensors.ultrasonic.UltrasonicDistance;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  *
  * Created by Prescott on 10/7/15.
  * Last edited by Prescott on 10/21/15.
+*/
 
 public class UltrasonicSensorTest extends OpMode {
     //Initializes the Ultrasonic Sensor
@@ -24,17 +25,15 @@ public class UltrasonicSensorTest extends OpMode {
         ultrasonicsensor = hardwareMap.ultrasonicSensor.get("ultrasonic_sensor");
 
         //Creates the new instance of the Class.
-        test = new UltrasonicDistance();
+        test = new UltrasonicDistance(ultrasonicsensor);
     }
     //Starts a loop that will last as long as the program is running. It will run the Method from
     //the class and show the data on the phones.
     public void loop () {
-        //Starts the Method from the class.
-        test.getdistance(ultrasonicsensor);
+        test.getdistance('r');
 
         //Shows data from the sensor that has been converted through the method in the class.
-        telemetry.addData("Centimeters", test.centimeters);
-        telemetry.addData("Inches", test.inches);
+        telemetry.addData("Centimeters", test.getdistance('c'));
+        telemetry.addData("Inches", test.getdistance('i'));
     }
 }
-*/
