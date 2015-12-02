@@ -69,7 +69,7 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
         //Reverses the Left Motor.
         motorRight.setDirection(DcMotor.Direction.REVERSE);
 
-        leftServo.setPosition(startPos);
+        leftServo.setPosition(endLeft);
         rightServo.setPosition(startPos);
         colorArm.setPosition(startPos);
 
@@ -78,9 +78,12 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
 
         //************************START!!!!!!!*************************
         waitForStart(); //Starts the actual program.
-
         //Allows the use of a delay.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
+
+        leftServo.setPosition(endLeft);
+        rightServo.setPosition(startPos);
+        colorArm.setPosition(startPos);
 
         double blackTiles = 0.7;
         double blueTape = 0.78;
@@ -113,7 +116,7 @@ public class AutonomousBackUpBLUETEAM extends LinearOpMode{
                 motorLeft.setPower(motorMaxPower);
             }
         }else {
-            leftServo.setPosition(endLeft);
+            leftServo.setPosition(startPos);
             colorArm.setPosition(0.0);
             while (ultrasonicDistance.getdistance('i') >= 6.9) {
                 motorRight.setPower(motorMaxPower);

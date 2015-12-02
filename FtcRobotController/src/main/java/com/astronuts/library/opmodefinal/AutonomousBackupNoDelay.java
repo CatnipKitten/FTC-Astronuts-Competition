@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by Preescoot on 11/21/15.
  */
-public class AutonomousSimpleBackup extends LinearOpMode{
+public class AutonomousBackupNoDelay extends LinearOpMode {
     DcMotor right;
     DcMotor left;
     final static double motorMaxPower = 1.0;
@@ -18,8 +18,6 @@ public class AutonomousSimpleBackup extends LinearOpMode{
         right.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
-
-        Thread.sleep(5000);
 
         left.setPower(motorMaxPower);
         right.setPower(motorMaxPower);
