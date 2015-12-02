@@ -59,4 +59,11 @@ public class drive {
         t = (RobotData.encoderTicksPerRevolution * amt) / RobotData.degreesPerRevolution;
         return (int) Math.round(t);
     }
+    public boolean isDone(){
+        boolean complete = true;
+        if(!(this.encoderLeft.isDone && this.encoderRight.isDone)){
+            complete = false;
+        }
+        return complete;
+    }
 }

@@ -17,28 +17,21 @@ import static com.astronuts.library.chudsCode.SafeSnooze.snooze;
 public class EncoderMotor {
 
     public static String LOG_TAG = "EncoderMotor";
-
+    //Stores the accuracy value.
+    public int accuracy;
+    //This is a flag for the use of the calling program.
+    public boolean isDone;
+    public boolean LinearOp;
     /**Class variables*/
 
     //This stores the motor instance.
     private DcMotor motorMain;
-
     //Stores the case value.
     private short Case;
-
     //Stores the current target value.
     private int motorTarget;
-
     //This helps with incrementing.
     private int motorPrime;
-
-    //Stores the accuracy value.
-    public int accuracy;
-
-    //This is a flag for the use of the calling program.
-    public boolean isDone;
-
-    public boolean LinearOp;
 
     /**Main methods*/
 
@@ -87,38 +80,31 @@ public class EncoderMotor {
     //Motor movement method
     public void move(int Target, double Power){
 
-        boolean Complete = false;
-
-
-        while (!Complete){
-
-
-            switch(Case) {
+        switch(Case) {
 
 
 
-                //CASE 0: Resets the encoders.
-                case 0:
+            //CASE 0: Resets the encoders.
+            case 0:
 
-                    runMode(DcMotorController.RunMode.RESET_ENCODERS);
+                runMode(DcMotorController.RunMode.RESET_ENCODERS);
 
-                    this.Case = 1;
+                this.isDone = false;
+                this.Case = 1;
 
-                    break;
+                break;
 
                 //CASE 1: Confirms that the encoders have been reset.
-                case 1:
+            case 1:
 
-                    if (cnf(DcMotorController.RunMode.RESET_ENCODERS)) {
-
+                if (cnf(DcMotorController.RunMode.RESET_ENCODERS)) {
                         this.Case = 2;
-
                     }
 
-                    break;
+                break;
 
                 //CASE 2: Sets the motors to the run to position mode.
-                case 2:
+            case 2:
 
                     runMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
@@ -195,17 +181,12 @@ public class EncoderMotor {
 
             }
 
-            if(this.isDone){
-
-                Complete = true;
-
-            }
 
 
             snooze(50,'m');
 
         }
-    }
+
 
     //Manual motor movement method (Encoders will still record their current position.)
     public void moveManual(double Power){
