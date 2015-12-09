@@ -31,7 +31,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.astronuts.library.opmodes.ColorSensorCode;
 import com.astronuts.library.opmodes.TestSensors;
+import com.astronuts.library.opmodes.UltrasonicSensorTest;
+import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 import com.astronuts.library.opmodefinal.*;
@@ -41,8 +44,15 @@ import com.astronuts.library.opmodefinal.*;
  */
 public class FtcOpModeRegister implements OpModeRegister {
   public void register(OpModeManager manager) {
-    manager.register("LinearOP", Autonomous.class);
+    manager.register("LinearOP", AutonomousREDTEAM.class);
     manager.register("TeleOP", TeleOP.class);
     manager.register("Sensor Test", TestSensors.class);
+    manager.register("Autonomous BLUE TEAM", AutonomousBLUETEAM.class);
+    manager.register("Autonomous RED TEAM", AutonomousREDTEAM.class);
+    manager.register("Autonomous Backup BLUE TEAM", AutonomousBackUpBLUETEAM.class);
+    manager.register("Autonomous Backup RED TEAM", AutonomousBackUpREDTEAM.class);
+    manager.register("Backup backup", AutonomousSimpleBackup.class);
+    manager.register("Ultrasonic Distance Test", UltrasonicSensorTest.class);
+    manager.register("ColorSensorCode", ColorSensorCode.class);
   }
 }

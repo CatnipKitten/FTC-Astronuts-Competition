@@ -37,8 +37,10 @@ public class UltrasonicDistance {
         switch(unit) {
             case'c':
                 returnType = 1;
+                break;
             case'i':
                 returnType = 2;
+                break;
         }
 
         if (returnType == 1){
