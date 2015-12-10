@@ -8,6 +8,7 @@ import com.astronuts.library.movement.InitEncoder;
 import com.astronuts.library.movement.InitServo;
 import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.astronuts.library.sensors.ultrasonic.UltrasonicDistance;
+import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -28,8 +29,8 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * Created by Prescott on 10/28/15.
  * Last Edited by Prescott on 10/28/15.
  */
-public class AutonomousREDTEAM extends OpMode {
-    //Initializes the motors and power
+public class AutonomousFINALFORBOTHTEAM extends OpMode {
+    //Creates the motor objects and power variable
     DcMotor motorRight;
     DcMotor motorLeft;
     DcMotor motorArmLower;
@@ -37,11 +38,12 @@ public class AutonomousREDTEAM extends OpMode {
     DcMotor shoulder;
     final static double motorMaxPower = 100;
 
+    //Creates Encoder objects
     EncoderMotor leftEncoder;
     EncoderMotor rightEncoder;
     InitEncoder encoder;
 
-    //Initializes the servos
+    //Creates the servo objects
     Servo left;
     Servo right;
     Servo colorServo;
@@ -49,7 +51,7 @@ public class AutonomousREDTEAM extends OpMode {
     InitServo rightServo;
     InitServo colorArm;
 
-    //Initializes the sensors.
+    //Creates the sensor objects
     LightSensor lightSensor;
     UltrasonicSensor ultrasonic;
     ColorSensor color;
@@ -58,6 +60,7 @@ public class AutonomousREDTEAM extends OpMode {
     //Sets variable that is used for the color sensor channel.
     static final int LED_CHANNEL = 5;
 
+    //Sets variables for new instances of used classes
     UltrasonicDistance ultrasonicDistance;
     CScorrection cscorrection;
 
@@ -94,11 +97,12 @@ public class AutonomousREDTEAM extends OpMode {
         rightEncoder = new EncoderMotor(motorRight);
         encoder = new InitEncoder(leftEncoder, rightEncoder, motorMaxPower);
 
+        //Initializes Servos
         leftServo = new InitServo(left, 0.0, 0.65, 0.01);
         rightServo = new InitServo(right, 0.0, 0.7, 0.01);
         colorArm = new InitServo(colorServo, 0.0, 1.0, 0.01);
 
-        //Imports the Color Sensor and Ultrasonic Sensor classes
+        //Starts new instances of used classes
         cscorrection = new CScorrection();
         ultrasonicDistance = new UltrasonicDistance(ultrasonic);
     }
@@ -110,25 +114,36 @@ public class AutonomousREDTEAM extends OpMode {
         rightServo.init();
         colorArm.init();
 
-        //Moves the robot over to the line.
+
+        //Moves the robot close to the white line
         Drive.driveByDistance(27, 'i', leftEncoder, rightEncoder);
-        Drive.turnByAngle(-145, leftEncoder, rightEncoder);
+        if (RobotData.teamColor == 1) {
+            Drive.turnByAngle(-145, leftEncoder, rightEncoder);
+        } else {
+            Drive.turnByAngle(145, leftEncoder, rightEncoder);
+        }
         Drive.driveByDistance(82, 'i', leftEncoder, rightEncoder);
 
-        //Change me!
-        double whiteLine = 0.34;
+        //Variables for things on the floor
+        double whiteLine = 0.49;
         double colorDiff = 1.21;
 
-        //Turns the robot to be along the line
-        while(lightSensor.getLightDetected() < whiteLine){
-            Drive.turnByAngle(-10, leftEncoder, rightEncoder);
+
+        //Turns the robot to be along the white line
+        while (lightSensor.getLightDetected() < whiteLine) {
+            if (RobotData.teamColor == 1) {
+                Drive.turnByAngle(-10, leftEncoder, rightEncoder);
+            } else {
+                Drive.turnByAngle(10, leftEncoder, rightEncoder);
+            }
+
         }
         //Stops the robot at a certain distance away from the walls
-        while(ultrasonicDistance.getdistance('i') <= 12){
+        while (ultrasonicDistance.getdistance('i') <= 12) {
             Drive.driveByDistance(1, 'c', leftEncoder, rightEncoder);
         }
 
-        //Moves the servos down
+        //Moves the servo down and gets the color value
         colorArm.move(1.0);
         cscorrection.getColors(color);
 
@@ -136,14 +151,26 @@ public class AutonomousREDTEAM extends OpMode {
         int distanceFromArmToButton = 0;
 
         //Senses the color of one side of the beacon and decides which color
-        if (cscorrection.redCorrected/cscorrection.blueCorrected > colorDiff) {
-            colorArm.move(0.0);
-            leftServo.move(0.65);
-            Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
-        }else {
-            colorArm.move(0.0);
-            rightServo.move(0.7);
-            Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+        if (RobotData.teamColor == 1) {
+            if (cscorrection.redCorrected / cscorrection.blueCorrected > colorDiff) {
+                colorArm.move(0.0);
+                leftServo.move(0.65);
+                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+            } else {
+                colorArm.move(0.0);
+                rightServo.move(0.7);
+                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+            }
+        } else {
+            if (cscorrection.redCorrected / cscorrection.blueCorrected < colorDiff) {
+                colorArm.move(0.0);
+                leftServo.move(0.65);
+                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+            } else {
+                colorArm.move(0.0);
+                rightServo.move(0.7);
+                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+            }
         }
     }
 }
