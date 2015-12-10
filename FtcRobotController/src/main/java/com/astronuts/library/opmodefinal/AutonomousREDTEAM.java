@@ -9,6 +9,7 @@ import com.astronuts.library.movement.InitServo;
 import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.astronuts.library.sensors.ultrasonic.UltrasonicDistance;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
@@ -27,7 +28,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * Created by Prescott on 10/28/15.
  * Last Edited by Prescott on 10/28/15.
  */
-public class AutonomousREDTEAM extends LinearOpMode {
+public class AutonomousREDTEAM extends OpMode {
     //Initializes the motors and power
     DcMotor motorRight;
     DcMotor motorLeft;
@@ -36,13 +37,17 @@ public class AutonomousREDTEAM extends LinearOpMode {
     DcMotor shoulder;
     final static double motorMaxPower = 100;
 
-    EncoderMotor left;
-    EncoderMotor right;
+    EncoderMotor leftEncoder;
+    EncoderMotor rightEncoder;
+    InitEncoder encoder;
 
     //Initializes the servos
-    Servo leftServo;
-    Servo rightServo;
-    Servo colorArm;
+    Servo left;
+    Servo right;
+    Servo colorServo;
+    InitServo leftServo;
+    InitServo rightServo;
+    InitServo colorArm;
 
     //Initializes the sensors.
     LightSensor lightSensor;
@@ -53,18 +58,20 @@ public class AutonomousREDTEAM extends LinearOpMode {
     //Sets variable that is used for the color sensor channel.
     static final int LED_CHANNEL = 5;
 
-    //Starts Initialization.
+    UltrasonicDistance ultrasonicDistance;
+    CScorrection cscorrection;
+
     @Override
-    public void runOpMode () throws InterruptedException {
+    public void init() {
         //Maps the sensors.
         ultrasonic = hardwareMap.ultrasonicSensor.get("ultrasonic_sensor");
         lightSensor = hardwareMap.lightSensor.get("light_sensor");
         color = hardwareMap.colorSensor.get("color_sensor");
 
         //Maps the servos.
-        leftServo = hardwareMap.servo.get("left_button");
-        rightServo = hardwareMap.servo.get("right_button");
-        colorArm = hardwareMap.servo.get("color_servo");
+        left = hardwareMap.servo.get("left_button");
+        right = hardwareMap.servo.get("right_button");
+        colorServo = hardwareMap.servo.get("color_servo");
 
 
         //Maps the Device Interface Module
@@ -83,33 +90,30 @@ public class AutonomousREDTEAM extends LinearOpMode {
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
         //Initializes Encoders
-        left = new EncoderMotor(motorLeft);
-        right = new EncoderMotor(motorRight);
-        InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
+        leftEncoder = new EncoderMotor(motorLeft);
+        rightEncoder = new EncoderMotor(motorRight);
+        encoder = new InitEncoder(leftEncoder, rightEncoder, motorMaxPower);
 
-        InitServo finalLeft = new InitServo(leftServo, 0.0, 0.65, 0.01);
-        InitServo finalRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
-        InitServo finalColor = new InitServo(colorArm, 0.0, 1.0, 0.01);
+        leftServo = new InitServo(left, 0.0, 0.65, 0.01);
+        rightServo = new InitServo(right, 0.0, 0.7, 0.01);
+        colorArm = new InitServo(colorServo, 0.0, 1.0, 0.01);
 
         //Imports the Color Sensor and Ultrasonic Sensor classes
-        CScorrection cscorrection = new CScorrection();
-        UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonic);
+        cscorrection = new CScorrection();
+        ultrasonicDistance = new UltrasonicDistance(ultrasonic);
+    }
 
-        //************************************START!!!!!!************************************
-        waitForStart();
-
-        //Allows the use of a delay.
-        SafeSnooze.snooze(RobotData.timeDelay, 's');
-
+    @Override
+    public void loop() {
         //Initializes the servos
-        finalLeft.init();
-        finalRight.init();
-        finalColor.init();
+        leftServo.init();
+        rightServo.init();
+        colorArm.init();
 
         //Moves the robot over to the line.
-        Drive.driveByDistance(27, 'i', left, right);
-        Drive.turnByAngle(-145, left, right);
-        Drive.driveByDistance(82, 'i', left, right);
+        Drive.driveByDistance(27, 'i', leftEncoder, rightEncoder);
+        Drive.turnByAngle(-145, leftEncoder, rightEncoder);
+        Drive.driveByDistance(82, 'i', leftEncoder, rightEncoder);
 
         //Change me!
         double whiteLine = 0.34;
@@ -117,15 +121,15 @@ public class AutonomousREDTEAM extends LinearOpMode {
 
         //Turns the robot to be along the line
         while(lightSensor.getLightDetected() < whiteLine){
-            Drive.turnByAngle(-10, left, right);
+            Drive.turnByAngle(-10, leftEncoder, rightEncoder);
         }
         //Stops the robot at a certain distance away from the walls
         while(ultrasonicDistance.getdistance('i') <= 12){
-            Drive.driveByDistance(1, 'c', left, right);
+            Drive.driveByDistance(1, 'c', leftEncoder, rightEncoder);
         }
 
         //Moves the servos down
-        finalColor.move(1.0);
+        colorArm.move(1.0);
         cscorrection.getColors(color);
 
         //CHANGE ME!!!! I'M A PLACE HOLDER!!!!!
@@ -133,13 +137,13 @@ public class AutonomousREDTEAM extends LinearOpMode {
 
         //Senses the color of one side of the beacon and decides which color
         if (cscorrection.redCorrected/cscorrection.blueCorrected > colorDiff) {
-            finalColor.move(0.0);
-            finalLeft.move(0.65);
-            Drive.driveByDistance(distanceFromArmToButton, 'i', left, right);
+            colorArm.move(0.0);
+            leftServo.move(0.65);
+            Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
         }else {
-            finalColor.move(0.0);
-            finalRight.move(0.7);
-            Drive.driveByDistance(distanceFromArmToButton, 'i', left, right);
+            colorArm.move(0.0);
+            rightServo.move(0.7);
+            Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
         }
     }
 }
