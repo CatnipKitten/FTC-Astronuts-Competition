@@ -33,6 +33,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.astronuts.library.opmodes.ColorSensorCode;
 import com.astronuts.library.opmodes.TestSensors;
+import com.astronuts.library.opmodes.UltrasonicAndLineTest;
 import com.astronuts.library.opmodes.UltrasonicSensorTest;
 import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
@@ -54,5 +55,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("Backup backup", AutonomousSimpleBackup.class);
     manager.register("Ultrasonic Distance Test", UltrasonicSensorTest.class);
     manager.register("ColorSensorCode", ColorSensorCode.class);
+    manager.register("Ultrasonic And Line", UltrasonicAndLineTest.class);
   }
 }
