@@ -8,6 +8,7 @@ import com.astronuts.library.movement.InitEncoder;
 import com.astronuts.library.movement.InitServo;
 import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.astronuts.library.sensors.ultrasonic.UltrasonicDistance;
+import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -18,6 +19,7 @@ import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+import com.qualcomm.robotcore.robot.Robot;
 
 /**
  * This is an autonomous program that makes the robot follow a white line that leads up to the red
@@ -55,10 +57,9 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
     LightSensor lightSensor;
     UltrasonicSensor ultrasonic;
     ColorSensor color;
-    DeviceInterfaceModule cdim;
+    double distance;
 
-    //Sets variable that is used for the color sensor channel.
-    static final int LED_CHANNEL = 5;
+    int flag = 1;
 
     //Sets variables for new instances of used classes
     UltrasonicDistance ultrasonicDistance;
@@ -67,28 +68,21 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
     @Override
     public void init() {
         //Maps the sensors.
-        ultrasonic = hardwareMap.ultrasonicSensor.get("ultrasonic_sensor");
-        lightSensor = hardwareMap.lightSensor.get("light_sensor");
-        color = hardwareMap.colorSensor.get("color_sensor");
+        ultrasonic = hardwareMap.ultrasonicSensor.get(RobotData.ultrasonic_sensor);
+        lightSensor = hardwareMap.lightSensor.get(RobotData.light_sensor);
+        color = hardwareMap.colorSensor.get(RobotData.color_sensor);
 
         //Maps the servos.
-        left = hardwareMap.servo.get("left_button");
-        right = hardwareMap.servo.get("right_button");
-        colorServo = hardwareMap.servo.get("color_servo");
-
-
-        //Maps the Device Interface Module
-        cdim = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
-        //Sets the channel for the color sensor.
-        cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
-        cdim.setDigitalChannelState(LED_CHANNEL, false);
+        left = hardwareMap.servo.get(RobotData.left_button);
+        right = hardwareMap.servo.get(RobotData.right_button);
+        colorServo = hardwareMap.servo.get(RobotData.color_servo);
 
         //Maps the motors.
-        motorRight = hardwareMap.dcMotor.get("right_drive");
-        motorLeft = hardwareMap.dcMotor.get("left_drive");
-        motorArmLower = hardwareMap.dcMotor.get("lower_elbow");
-        motorArmUpper = hardwareMap.dcMotor.get("upper_elbow");
-        shoulder = hardwareMap.dcMotor.get("shoulder");
+        motorRight = hardwareMap.dcMotor.get(RobotData.left_drive);
+        motorLeft = hardwareMap.dcMotor.get(RobotData.right_drive);
+        motorArmLower = hardwareMap.dcMotor.get(RobotData.lower_elbow);
+        motorArmUpper = hardwareMap.dcMotor.get(RobotData.upper_elbow);
+        shoulder = hardwareMap.dcMotor.get(RobotData.shoulder);
         //Reverses the Left Motor.
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
@@ -130,7 +124,7 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
 
 
         //Turns the robot to be along the white line
-        while (lightSensor.getLightDetected() < whiteLine) {
+        while (lightSensor.getLightDetected() > whiteLine) {
             if (RobotData.teamColor == 1) {
                 Drive.turnByAngle(-10, leftEncoder, rightEncoder);
             } else {
@@ -139,10 +133,25 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
 
         }
         //Stops the robot at a certain distance away from the walls
-        while (ultrasonicDistance.getdistance('i') <= 12) {
-            Drive.driveByDistance(1, 'c', leftEncoder, rightEncoder);
+        switch(flag) {
+            case 1:
+                if (ultrasonicDistance.getdistance('r') > 0) {
+                    distance = ultrasonicDistance.getdistance('i');
+                }
+                if (distance > 12.5) {
+                    motorLeft.setPower(-motorMaxPower);
+                    motorRight.setPower(-motorMaxPower);
+                } else if (distance < 12) {
+                    motorLeft.setPower(motorMaxPower);
+                    motorRight.setPower(motorMaxPower);
+                }
+                if (distance < 12.5 && distance > 12) {
+                    motorLeft.setPower(0.0);
+                    motorRight.setPower(0.0);
+                    flag = 2;
+                }
+                break;
         }
-
         //Moves the servo down and gets the color value
         colorArm.move(1.0);
         cscorrection.getColors(color);
