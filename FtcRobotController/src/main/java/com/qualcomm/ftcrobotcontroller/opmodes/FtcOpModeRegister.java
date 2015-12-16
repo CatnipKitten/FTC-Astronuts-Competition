@@ -47,12 +47,13 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("LinearOP", AutonomousFINALFORBOTHTEAM.class);
     manager.register("TeleOP", TeleOP.class);
     manager.register("Sensor Test", TestSensors.class);
-    manager.register("Autonomous RED TEAM", AutonomousFINALFORBOTHTEAM.class);
-    manager.register("Autonomous Backup BLUE TEAM", AutonomousBackUpBLUETEAM.class);
-    manager.register("Autonomous Backup RED TEAM", AutonomousBackUpREDTEAM.class);
+    manager.register("AutonomousBackUpBLUETEAM RED TEAM", AutonomousFINALFORBOTHTEAM.class);
+    //manager.register("AutonomousBackUpBLUETEAM Backup BLUE TEAM", AutomonousBackUpBLUETEAM.class);
+    manager.register("AutonomousBackUpBLUETEAM Backup RED TEAM", AutonomousBackUpREDTEAM.class);
     manager.register("Backup backup", AutonomousSimpleBackup.class);
     manager.register("Ultrasonic Distance Test", UltrasonicSensorTest.class);
     manager.register("ColorSensorCode", ColorSensorCode.class);
     manager.register("Ultrasonic And Line", UltrasonicAndLineTest.class);
+    manager.register("Tester_1", Tester_1.class);
   }
 }

@@ -6,9 +6,7 @@ import android.util.Log;
 import java.io.File;
 
 public class RobotData {
-    public String LOG_TAG = "RobotData";
-
-    //Information for buttons on robotside
+    //Information for buttons, except nobody wants to use them
     public static int teamColor = 0; //Default value; 0 is blue, 1 is red
     public static String blueTeam = "Current Team: Blue";
     public static String redTeam = "Current Team: Red";
@@ -39,4 +37,18 @@ public class RobotData {
     public static final String light_sensor = "light_sensor";
     public static final String color_sensor = "color_sensor";
     public static final String cdim = "cdim";
+
+    //Calibration values for sensors.
+    //TODO: Find correction values at tournament.
+    public static final double blueMultiplicityValue = 1.0;
+    public static final double redMultiplicityValue = 1.0;
+    public static final double greenMultiplicityValue = 1.0;
+    public static final double ultrasonicCorrectionValue = 1.0;
+
+    //Movement data
+    public static final double encoderTicksPerRevolution = 1680;
+    //TODO: Calculate distance (in centimeters please) in one rev
+    public static final double distancePerRevolution = 10;
+    //TODO: Calculate angle theta (in degrees please) in one rev
+    public static final double degreesPerRevolution = 10;
 }
