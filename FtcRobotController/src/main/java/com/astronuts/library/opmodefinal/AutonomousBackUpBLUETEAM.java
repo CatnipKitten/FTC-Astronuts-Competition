@@ -5,20 +5,18 @@ import com.astronuts.library.chudsCode.SafeSnooze;
 import com.astronuts.library.movement.Drive;
 import com.astronuts.library.movement.EncoderMotor;
 import com.astronuts.library.movement.InitEncoder;
-import com.astronuts.library.movement.InitServo;
 import com.astronuts.library.sensors.colorsensor.CScorrection;
 import com.astronuts.library.sensors.ultrasonic.UltrasonicDistance;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.LightSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
-/**
- * This is an autonomous program that makes the robot follow a white line that leads up to the red
+/* This is an autonomous program that makes the robot follow a white line that leads up to the red
  * and blue lights, finds out which color one side is, then uses logic to find the team's color,
  * and pushes one of the buttons based off of the team color.
  * (hopefully XD)
@@ -28,18 +26,20 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * Last Edited by Prescott on 10/28/15.
  *
  */
-public class Autonomous extends LinearOpMode {
+public class AutonomousBackUpBLUETEAM extends LinearOpMode {
     //Initializes the motors
     DcMotor motorRight;
     DcMotor motorLeft;
-    final static double motorMaxPower = 20;
+    final static double motorMaxPower = 1.0;
+
 
     Servo leftServo;
     Servo rightServo;
     Servo colorArm;
-    InitServo servoLeft = new InitServo(leftServo, 0.1, 0.65, 0.01);
-    InitServo servoRight = new InitServo(rightServo, 0.0, 0.7, 0.01);
-    InitServo servoColor = new InitServo(colorArm, 0.0, 1.0, .01);
+    double servoDelta = 0.01;
+    double startPos = 0.0;
+    double endLeft = 0.65;
+    double endRight = 0.7;
 
 
     //Initializes the sensors.
@@ -56,6 +56,7 @@ public class Autonomous extends LinearOpMode {
 
     InitEncoder encoder = new InitEncoder(left, right, motorMaxPower);
 
+
     @Override
     public void runOpMode () throws InterruptedException {
         //Maps the sensors.
@@ -69,7 +70,7 @@ public class Autonomous extends LinearOpMode {
 
 
         //Maps the Device Interface Module
-        cdim = hardwareMap.deviceInterfaceModule.get("dim");
+        cdim = hardwareMap.deviceInterfaceModule.get("Device Interface Module1");
         //Sets the channel for the color sensor.
         cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
         cdim.setDigitalChannelState(LED_CHANNEL, false);
@@ -78,24 +79,46 @@ public class Autonomous extends LinearOpMode {
         motorRight = hardwareMap.dcMotor.get("right_drive");
         motorLeft = hardwareMap.dcMotor.get("left_drive");
         //Reverses the Left Motor.
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorRight.setDirection(DcMotor.Direction.REVERSE);
+
+        leftServo.setPosition(endLeft);
+        rightServo.setPosition(startPos);
+        colorArm.setPosition(startPos);
 
         CScorrection cscorrection = new CScorrection();
         UltrasonicDistance ultrasonicDistance = new UltrasonicDistance(ultrasonic);
 
+        //************************START!!!!!!!*************************
         waitForStart(); //Starts the actual program.
         SafeSnooze.snooze(RobotData.timeDelay, 's');
-        servoLeft.init();
-        servoRight.init();
-        servoColor.init();
+
+        leftServo.setPosition(endLeft);
+        rightServo.setPosition(startPos);
+        colorArm.setPosition(startPos);
+
+        double blackTiles = 0.7;
+        double blueTape = 0.78;
+
+        //servoLeft.init();
+        //servoRight.init();
+        //servoColor.init();
 
         Drive.driveByDistance(27, 'i', left, right);
         Drive.turnByAngle(-145, left, right);
         Drive.driveByDistance(82, 'i', left, right);
 
-        //Change me!
-        int whiteline = 0;
-        int colordiff = 0;
+        motorLeft.setPower(motorMaxPower);
+        motorRight.setPower(motorMaxPower);
+
+        Thread.sleep(2750);
+
+        motorLeft.setPower(0);
+        motorRight.setPower(0);
+
+        while (lightSensor.getLightDetected() > blackTiles && lightSensor.getLightDetected() > blueTape) {
+            motorRight.setPower(motorMaxPower);
+            motorLeft.setPower(-motorMaxPower);
+        }
 
         while(lightSensor.getLightDetected() < whiteline){
             Drive.turnByAngle(-10, left, right);
@@ -118,8 +141,28 @@ public class Autonomous extends LinearOpMode {
 
         Drive.driveByDistance(-16, 'i', left, right);
 
-
+        while (ultrasonicDistance.getdistance('i') > 12) {
+            motorRight.setPower(motorMaxPower);
+            motorLeft.setPower(motorMaxPower);
         }
 
+        colorArm.setPosition(.36);
 
+        if (cscorrection.redCorrected/cscorrection.blueCorrected < 1.2) {
+            rightServo.setPosition(endRight);
+            colorArm.setPosition(0.0);
+            while (ultrasonicDistance.getdistance('i') >= 6.9) {
+                motorRight.setPower(motorMaxPower);
+                motorLeft.setPower(motorMaxPower);
+            }
+        }else {
+            leftServo.setPosition(startPos);
+            colorArm.setPosition(0.0);
+            while (ultrasonicDistance.getdistance('i') >= 6.9) {
+                motorRight.setPower(motorMaxPower);
+                motorLeft.setPower(motorMaxPower);
+            }
+        }
     }
+}
+
