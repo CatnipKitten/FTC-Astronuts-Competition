@@ -47,6 +47,13 @@ public class RobotData {
 
     //Movement data
     public static final double encoderTicksPerRevolution = 1680;
+<<<<<<< HEAD
     public static final double distancePerRevolution = 31.75;
     public static final double degreesPerRevolution = 75;
+=======
+    //TODO: Calculate distance (in centimeters please) in one rev
+    public static final double distancePerRevolution = 10;
+    //TODO: Calculate angle theta (in degrees please) in one rev
+    public static final double degreesPerRevolution = 10;
+>>>>>>> origin/preescot
 }

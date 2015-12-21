@@ -18,8 +18,13 @@ public class EncoderMotor {
     //Stores the accuracy value.
     public int accuracy;
     //This is a flag for the use of the calling program.
+<<<<<<< HEAD
     public boolean Complete = false;
     //public boolean LinearOp;
+=======
+    public boolean isDone;
+    public boolean LinearOp;
+>>>>>>> origin/preescot
     /**Class variables*/
 
     //This stores the motor instance.
@@ -85,7 +90,11 @@ public class EncoderMotor {
 
                 runMode(DcMotorController.RunMode.RESET_ENCODERS);
 
+<<<<<<< HEAD
                 this.Complete = false;
+=======
+                this.isDone = false;
+>>>>>>> origin/preescot
                 this.Case = 1;
 
                 break;
@@ -117,6 +126,7 @@ public class EncoderMotor {
 
                     }
 
+<<<<<<< HEAD
                     break;
 
                 //CASE 4: Sets the target position to a value that will not be changed until the target has been reached.
@@ -150,9 +160,49 @@ public class EncoderMotor {
                 case 6:
 
                     if (!(this.motorMain.getCurrentPosition() - this.motorTarget < 100)) {
+=======
+                    this.isDone = true; //Set to true, as a value can now be assigned as the target.
+
+                    break;
+
+                //CASE 4: Sets the target position to a value that will not be changed until the target has been reached.
+                case 4:
+
+                    this.motorTarget = Target;
+                    this.Case = 5;
+                    this.motorPrime = 0;
+
+                    break;
+
+                //CASE 5: Tests to see if the current position is within 5 of the target position. If true, the motor power will be set to zero, and the case will be set to 4 so a new target can be set. If false, the case will be set to 6, so the motor can move to the current target.
+                case 5:
+
+                    if (Math.abs(this.motorMain.getCurrentPosition() - this.motorTarget) <= this.accuracy) {
+
+                        this.motorMain.setPower(0);
+                        this.Case = 4;
+                        this.isDone = true; //Set to true, as a new value can now be assigned.
+
+                    } else {
+
+                        this.Case = 6;
+                        this.isDone = false; //The target has not been met, so flag is set to false.
+
+                    }
+
+                    break;
+
+                //CASE 6: this is in charge of incrementing the motor
+                case 6:
+
+                    if (!(this.motorMain.getCurrentPosition() - this.motorTarget < 100)) {
+
+                        this.motorPrime = this.motorTarget / 30 + this.motorPrime;
+>>>>>>> origin/preescot
 
                         this.motorPrime = this.motorTarget / 30 + this.motorPrime;
 
+<<<<<<< HEAD
 
                     } else {
 
@@ -177,6 +227,32 @@ public class EncoderMotor {
 
             }
 
+=======
+                    } else {
+
+                        this.motorPrime = this.motorTarget;
+
+                    }
+
+                    this.Case = 7;
+
+                    break;
+
+                //CASE 7: Sets the DC motor target to the desired target, the power is also set.
+                case 7:
+
+                    this.motorMain.setTargetPosition(this.motorPrime);
+                    this.motorMain.setPower(Power);
+                    this.Case = 5; //Set to 5, to test if the target has been reached.
+
+                    break;
+
+            }
+
+
+
+            snooze(50,'m');
+>>>>>>> origin/preescot
 
         }
 

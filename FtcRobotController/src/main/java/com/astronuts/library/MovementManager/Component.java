@@ -1,8 +1,12 @@
 package com.astronuts.library.MovementManager;
 
 import com.astronuts.library.movement.EncoderMotor;
+<<<<<<< HEAD
 import com.astronuts.library.MovementManager.newdrive.drive;
 import com.qualcomm.ftccommon.DbgLog;
+=======
+import com.astronuts.library.newdrive.drive;
+>>>>>>> origin/preescot
 
 /**
  * Created by Chooooooooood on 12/2/2015.
@@ -12,7 +16,11 @@ public class Component {
 
     protected boolean DriveTrain;
     protected short ID;
+<<<<<<< HEAD
    // protected boolean isDone;
+=======
+    protected boolean isDone;
+>>>>>>> origin/preescot
     private drive drive;
     private EncoderMotor motor;
 
@@ -42,6 +50,7 @@ public class Component {
         this.motor.move(distance, power);
     }
 
+<<<<<<< HEAD
     protected boolean isDone(){
         if(this.DriveTrain == true) {
             if (this.drive.isDone()) {
@@ -63,4 +72,15 @@ public class Component {
     }
 
 
+=======
+    protected boolean Complete(){
+        boolean isTrue = false;
+        if(this.DriveTrain == true){
+            if(this.drive.isDone())isTrue = true;
+        }else{
+            if(this.motor.isDone == true)isTrue = true;
+        }
+        return isTrue;
+    }
+>>>>>>> origin/preescot
 }
