@@ -11,18 +11,18 @@ public class InitEncoder {
         this.encoderMotorRight = encoderMotorRight;
         this.power = power;
     }
-
+    @Deprecated
     //Move function
     public void move(double distance, char unit) {
         Drive.driveByDistance(distance, unit, power, encoderMotorLeft, encoderMotorRight);
     }
-
+    @Deprecated
     //Move manually function
     public void moveManual(){
         encoderMotorLeft.moveManual(power);
         encoderMotorRight.moveManual(power);
     }
-
+    @Deprecated
     //Move manually with a power level
     public void moveManual(double powerLevel){
         encoderMotorLeft.moveManual(powerLevel);

@@ -1,5 +1,8 @@
 package com.astronuts.library.opmodefinal;
 
+import com.astronuts.library.MovementManager.Component;
+import com.astronuts.library.MovementManager.MovementManager;
+import com.astronuts.library.MovementManager.newdrive.drive;
 import com.astronuts.library.RobotData;
 import com.astronuts.library.chudsCode.SafeSnooze;
 import com.astronuts.library.movement.Drive;
@@ -64,6 +67,10 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
     //Sets variables for new instances of used classes
     UltrasonicDistance ultrasonicDistance;
     CScorrection cscorrection;
+    drive Drive;
+    Component DriveTrain;
+
+    private int driveID = 0;
 
     @Override
     public void init() {
@@ -99,6 +106,10 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
         //Starts new instances of used classes
         cscorrection = new CScorrection();
         ultrasonicDistance = new UltrasonicDistance(ultrasonic);
+
+        Drive = new drive(leftEncoder, rightEncoder);
+        DriveTrain = new Component(driveID, Drive);
+        MovementManager.Register(DriveTrain);
     }
 
     @Override
@@ -109,43 +120,58 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
         colorArm.init();
 
 
-        //Moves the robot close to the white line
-        Drive.driveByDistance(27, 'i', leftEncoder, rightEncoder);
-        if (RobotData.teamColor == 1) {
-            Drive.turnByAngle(-145, leftEncoder, rightEncoder);
-        } else {
-            Drive.turnByAngle(145, leftEncoder, rightEncoder);
+        switch (MovementManager.Case) {
+            case 0:
+                MovementManager.DriveByDistance(driveID, 68.58, 'c');
+                MovementManager.completionTest(driveID);
+                break;
+            case 1:
+                if (RobotData.teamColor == 1) {
+                    MovementManager.turnByAngle(driveID, 145, 'l');
+                } else {
+                    MovementManager.turnByAngle(driveID, 145, 'r');
+                }
+                MovementManager.completionTest(driveID);
+                break;
+            case 2:
+                MovementManager.DriveByDistance(driveID, 208.28, 'c');
+                MovementManager.completionTest(driveID);
+                break;
         }
-        Drive.driveByDistance(82, 'i', leftEncoder, rightEncoder);
+
 
         //Variables for things on the floor
         double whiteLine = 0.49;
         double colorDiff = 1.21;
 
 
-        //Turns the robot to be along the white line
         while (lightSensor.getLightDetected() > whiteLine) {
-            if (RobotData.teamColor == 1) {
-                Drive.turnByAngle(-10, leftEncoder, rightEncoder);
-            } else {
-                Drive.turnByAngle(10, leftEncoder, rightEncoder);
+            switch (MovementManager.Case) {
+                case 3:
+                    if (RobotData.teamColor == 1) {
+                        MovementManager.turnByAngle(driveID, 10, 'r');
+                    } else {
+                        MovementManager.turnByAngle(driveID, 10, 'l');
+                    }
+                    MovementManager.completionTest(driveID);
+                    break;
             }
-
         }
+
         //Stops the robot at a certain distance away from the walls
-        switch(flag) {
+        switch (flag) {
             case 1:
                 if (ultrasonicDistance.getdistance('r') > 0) {
                     distance = ultrasonicDistance.getdistance('i');
                 }
-                if (distance > 12.5) {
+                if (distance > 13.75) {
                     motorLeft.setPower(-motorMaxPower);
                     motorRight.setPower(-motorMaxPower);
-                } else if (distance < 12) {
+                } else if (distance < 13.75) {
                     motorLeft.setPower(motorMaxPower);
                     motorRight.setPower(motorMaxPower);
                 }
-                if (distance < 12.5 && distance > 12) {
+                if (distance < 13.55 && distance > 13.95) {
                     motorLeft.setPower(0.0);
                     motorRight.setPower(0.0);
                     flag = 2;
@@ -157,30 +183,50 @@ public class AutonomousFINALFORBOTHTEAM extends OpMode {
         cscorrection.getColors(color);
 
         //CHANGE ME!!!! I'M A PLACE HOLDER!!!!!
-        int distanceFromArmToButton = 0;
+        int distanceFromTheButtonPushersToButton = 0;
 
         //Senses the color of one side of the beacon and decides which color
         if (RobotData.teamColor == 1) {
             if (cscorrection.redCorrected / cscorrection.blueCorrected > colorDiff) {
                 colorArm.move(0.0);
                 leftServo.move(0.65);
-                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+                switch (MovementManager.Case) {
+                    case 4:
+                        MovementManager.DriveByDistance(driveID, distanceFromTheButtonPushersToButton, 'c');
+                        MovementManager.completionTest(driveID);
+                        break;
+                }
             } else {
                 colorArm.move(0.0);
                 rightServo.move(0.7);
-                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+                switch (MovementManager.Case) {
+                    case 5:
+                        MovementManager.DriveByDistance(driveID, distanceFromTheButtonPushersToButton, 'c');
+                        MovementManager.completionTest(driveID);
+                        break;
+                }
             }
-        } else {
-            if (cscorrection.redCorrected / cscorrection.blueCorrected < colorDiff) {
-                colorArm.move(0.0);
-                leftServo.move(0.65);
-                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
-            } else {
-                colorArm.move(0.0);
-                rightServo.move(0.7);
-                Drive.driveByDistance(distanceFromArmToButton, 'i', leftEncoder, rightEncoder);
+            }else{
+                if (cscorrection.redCorrected / cscorrection.blueCorrected < colorDiff) {
+                    colorArm.move(0.0);
+                    leftServo.move(0.65);
+                    switch (MovementManager.Case) {
+                        case 6:
+                            MovementManager.DriveByDistance(driveID, distanceFromTheButtonPushersToButton, 'c');
+                            MovementManager.completionTest(driveID);
+                            break;
+                    }
+                }else {
+                        colorArm.move(0.0);
+                        rightServo.move(0.7);
+                        switch (MovementManager.Case) {
+                            case 7:
+                                MovementManager.DriveByDistance(driveID, distanceFromTheButtonPushersToButton, 'c');
+                                MovementManager.completionTest(driveID);
+                                break;
+                        }
+                    }
+                    telemetry.addData("Team", RobotData.teamColor);
+                }
             }
         }
-    }
-}
-
